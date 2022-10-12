@@ -76,6 +76,7 @@ def parse_arguments():
     return parser.parse_args()
 
 def clean_up():
+    log("Cleaning up")
     run_command("rm -rf opbeans-android")
     run_command("rm -rf apm-agent-android")
 
