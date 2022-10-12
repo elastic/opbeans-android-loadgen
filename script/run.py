@@ -75,12 +75,17 @@ def parse_arguments():
                         default=None)
     return parser.parse_args()
 
+def clean_up():
+    run_command("rm -rf opbeans-android")
+    run_command("rm -rf apm-agent-android")
+
 
 def main():
     args = parse_arguments()
     build_agent()
     set_opbeans_agent_version(get_agent_version())
     run_tests(args)
+    clean_up()
 
 
 if __name__ == "__main__":

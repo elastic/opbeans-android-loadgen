@@ -20,11 +20,11 @@ COPY requirements.txt ./
 
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-RUN git clone https://${github_username}:${github_password}@github.com/elastic/opbeans-android.git
-RUN git clone https://${github_username}:${github_password}@github.com/elastic/apm-agent-android.git
-
 COPY script ./
 
 WORKDIR /script
+
+RUN git clone https://${github_username}:${github_password}@github.com/elastic/opbeans-android.git
+RUN git clone https://${github_username}:${github_password}@github.com/elastic/apm-agent-android.git
 
 CMD python3 -m run --exporter-endpoint ${EXPORTER_ENDPOINT} --exporter-auth-token ${EXPORTER_AUTH_TOKEN} --opbeans-endpoint ${OPBEANS_ENDPOINT} --opbeans-auth-token ${OPBEANS_AUTH_TOKEN}
