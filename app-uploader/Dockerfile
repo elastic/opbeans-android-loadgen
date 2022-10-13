@@ -27,8 +27,6 @@ COPY requirements.txt ./
 
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-COPY ./script ./script
-
-WORKDIR /script
+COPY ./run.py ./
 
 CMD python3 -m run --exporter-endpoint ${EXPORTER_ENDPOINT} --exporter-auth-token ${EXPORTER_AUTH_TOKEN} --opbeans-endpoint ${OPBEANS_ENDPOINT} --opbeans-auth-token ${OPBEANS_AUTH_TOKEN}
