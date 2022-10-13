@@ -5,7 +5,11 @@ from jproperties import Properties
 
 
 def log(message, *args):
-    run_command("echo [APP_BUILDER] - " + message.format(*args))
+    print("[APP_BUILDER] - " + message.format(*args))
+
+
+def run_build_command(command, from_build_dir=''):
+    run_command(command, "./build" + from_build_dir)
 
 
 def run_command(command, from_dir=os.getcwd()):
@@ -21,18 +25,19 @@ def run_command(command, from_dir=os.getcwd()):
 
 def fetch_repos():
     log("Fetching repos")
-    run_command("git clone https://${GITHUB_USERNAME}:${GITHUB_PASSWORD}@github.com/elastic/opbeans-android.git")
-    run_command("git clone https://${GITHUB_USERNAME}:${GITHUB_PASSWORD}@github.com/elastic/apm-agent-android.git")
+    run_build_command("git clone https://${GITHUB_USERNAME}:${GITHUB_PASSWORD}@github.com/elastic/opbeans-android.git")
+    run_build_command(
+        "git clone https://${GITHUB_USERNAME}:${GITHUB_PASSWORD}@github.com/elastic/apm-agent-android.git")
 
 
 def build_agent():
     log("Building APM Agent")
-    run_command("./gradlew publishToMavenLocal", "./apm-agent-android")
+    run_build_command("./gradlew publishToMavenLocal", "/apm-agent-android")
 
 
 def get_agent_version():
     configs = Properties()
-    with open('apm-agent-android/gradle.properties', 'rb') as properties:
+    with open('build/apm-agent-android/gradle.properties', 'rb') as properties:
         configs.load(properties)
 
     return configs.get("version").data
@@ -40,7 +45,7 @@ def get_agent_version():
 
 def set_opbeans_agent_version(agent_version):
     log("Setting agent version: {}", agent_version)
-    with open('opbeans-android/gradle.properties', 'r+b') as properties:
+    with open('build/opbeans-android/gradle.properties', 'r+b') as properties:
         opbeans_prop = Properties()
         opbeans_prop.load(properties)
 
@@ -61,8 +66,8 @@ def build_binaries(args):
     if args.opbeansAuthToken is not None:
         command = command + " -Popbeans_auth_token={}".format(args.opbeansAuthToken)
 
-    run_command(command, "./opbeans-android")
-    run_command(
+    run_build_command(command, "/opbeans-android")
+    run_build_command(
         "zip -j opbeans-android-app.zip opbeans-android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk opbeans-android/app/build/outputs/apk/debug/app-debug.apk")
 
 
@@ -85,22 +90,26 @@ def parse_arguments():
 
 def upload_binaries():
     log("Uploading Android binaries")
-    run_command("curl -u ${SAUCE_USERNAME}:${SAUCE_ACCESS_KEY} --location \\"
-                "--request POST https://api.us-west-1.saucelabs.com/v1/storage/upload \\"
-                "--form payload=@\"./opbeans-android-app.zip\" \\"
-                "--form 'name=\"opbeans-android-app.zip\"'")
+    run_build_command("curl -u ${SAUCE_USERNAME}:${SAUCE_ACCESS_KEY} --location \\"
+                      "--request POST https://api.us-west-1.saucelabs.com/v1/storage/upload \\"
+                      "--form payload=@\"./opbeans-android-app.zip\" \\"
+                      "--form 'name=\"opbeans-android-app.zip\"'")
 
 
 def clean_up():
     log("Cleaning up")
-    run_command("rm -rf opbeans-android")
-    run_command("rm -rf apm-agent-android")
-    run_command("rm opbeans-android-app.zip")
+    run_command("rm -rf build")
+
+
+def create_build_dir():
+    log("Creating build dir")
+    run_command("mkdir build")
 
 
 def main():
     args = parse_arguments()
     try:
+        create_build_dir()
         fetch_repos()
         build_agent()
         set_opbeans_agent_version(get_agent_version())
