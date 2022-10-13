@@ -63,8 +63,10 @@ def build_binaries(args):
         command = command + " -Popbeans_auth_token={}".format(args.opbeansAuthToken)
 
     run_command(command, "./opbeans-android")
-    run_command("ls opbeans-android/build/outputs/apk/androidTest/debug -l")
-    run_command("ls opbeans-android/build/outputs/apk/debug -l")
+    log("About to list opbeans dir")
+    dir_path = r'./opbeans-android/**/*.*'
+    for file in glob.glob(dir_path, recursive=True):
+        print(file)
     run_command(
         "zip opbeans-android-app.zip opbeans-android/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk opbeans-android/build/outputs/apk/debug/app-debug.apk")
 
