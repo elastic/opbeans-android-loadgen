@@ -3,6 +3,7 @@ import os
 import subprocess
 
 from jproperties import Properties
+from os import walk
 
 
 def log(message, *args):
@@ -64,9 +65,13 @@ def build_binaries(args):
 
     run_command(command, "./opbeans-android")
     log("About to list opbeans dir")
-    dir_path = r'./opbeans-android/**/*.*'
-    for file in glob.glob(dir_path, recursive=True):
-        print(file)
+
+    dir_path = r'opbeans-android/'
+    res = []
+    for (dir_path, dir_names, file_names) in walk(dir_path):
+        res.extend(file_names)
+    print(res)
+
     run_command(
         "zip opbeans-android-app.zip opbeans-android/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk opbeans-android/build/outputs/apk/debug/app-debug.apk")
 
