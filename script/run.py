@@ -86,12 +86,20 @@ def upload_binaries():
                 "--form 'name=\"opbeans-android-app.zip\"'")
 
 
+def clean_up():
+    log("Cleaning up")
+    run_command("rm -rf opbeans-android")
+    run_command("rm -rf apm-agent-android")
+    run_command("rm opbeans-android-app.zip")
+
+
 def main():
     args = parse_arguments()
     build_agent()
     set_opbeans_agent_version(get_agent_version())
     build_binaries(args)
     upload_binaries()
+    clean_up()
 
 
 if __name__ == "__main__":
