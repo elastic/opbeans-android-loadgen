@@ -6,11 +6,11 @@ from jproperties import Properties
 
 
 def log(message, *args):
-    run_command("echo [APP_BUILDER] = " + message.format(*args))
+    run_command("echo [APP_BUILDER] - " + message.format(*args))
 
 
 def run_command(command, from_dir=os.getcwd()):
-    log("Running command: {}", command)
+    print("Running command: {}".format(command))
     with subprocess.Popen(command, stdout=subprocess.PIPE, cwd=from_dir, bufsize=1,
                           universal_newlines=True, shell=True) as p:
         for line in p.stdout:
