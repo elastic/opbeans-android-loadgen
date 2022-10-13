@@ -1,7 +1,5 @@
 FROM androidsdk/android-31
 
-ARG github_username
-ARG github_password
 ARG sauce_username
 ARG sauce_access_key
 ARG opbeans_endpoint
@@ -14,8 +12,6 @@ ENV OPBEANS_AUTH_TOKEN=${opbeans_auth_token}
 ENV OPBEANS_ENDPOINT=${opbeans_endpoint}
 ENV SAUCE_USERNAME=${sauce_username}
 ENV SAUCE_ACCESS_KEY=${sauce_access_key}
-ENV GITHUB_USERNAME=${github_username}
-ENV GITHUB_PASSWORD=${github_password}
 
 WORKDIR /
 
