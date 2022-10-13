@@ -46,9 +46,9 @@ def set_opbeans_agent_version(agent_version):
         opbeans_prop.store(properties)
 
 
-def run_tests(args):
-    log("Running UI tests")
-    command = "./gradlew connectedAndroidTest -Pexporter_endpoint={} -Popbeans_endpoint={}".format(
+def build_binaries(args):
+    log("Building APKs")
+    command = "./gradlew :app:packageDebugAndroidTest :app:assembleDebug -Pexporter_endpoint={} -Popbeans_endpoint={}".format(
         args.exporterEndpoint, args.opbeansEndpoint)
 
     if args.exporterAuthToken is not None:
@@ -80,7 +80,7 @@ def main():
     args = parse_arguments()
     build_agent()
     set_opbeans_agent_version(get_agent_version())
-    run_tests(args)
+    build_binaries(args)
 
 
 if __name__ == "__main__":
