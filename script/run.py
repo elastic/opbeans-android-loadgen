@@ -57,6 +57,8 @@ def build_binaries(args):
         command = command + " -Popbeans_auth_token={}".format(args.opbeansAuthToken)
 
     run_command(command, "./opbeans-android")
+    run_command(
+        "zip opbeans-android-app.zip ./opbeans-android/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk ./opbeans-android/build/outputs/apk/debug/app-debug.apk")
 
 
 def none_or_str(value):
@@ -76,11 +78,20 @@ def parse_arguments():
     return parser.parse_args()
 
 
+def upload_binaries():
+    log("Uploading Android binaries")
+    run_command("curl -u ${SAUCE_USERNAME}:${SAUCE_ACCESS_KEY} --location \\"
+                "--request POST https://api.us-west-1.saucelabs.com/v1/storage/upload \\"
+                "--form payload=@\"./opbeans-android-app.zip\" \\"
+                "--form 'name=\"opbeans-android-app.zip\"'")
+
+
 def main():
     args = parse_arguments()
     build_agent()
     set_opbeans_agent_version(get_agent_version())
     build_binaries(args)
+    upload_binaries()
 
 
 if __name__ == "__main__":
