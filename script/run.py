@@ -1,9 +1,7 @@
 import argparse
 import os
 import subprocess
-
 from jproperties import Properties
-from os import walk
 
 
 def log(message, *args):
@@ -64,16 +62,8 @@ def build_binaries(args):
         command = command + " -Popbeans_auth_token={}".format(args.opbeansAuthToken)
 
     run_command(command, "./opbeans-android")
-    log("About to list opbeans dir")
-
-    dir_path = r'opbeans-android/'
-    res = []
-    for (dir_path, dir_names, file_names) in walk(dir_path):
-        res.extend(file_names)
-    print(res)
-
     run_command(
-        "zip opbeans-android-app.zip opbeans-android/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk opbeans-android/build/outputs/apk/debug/app-debug.apk")
+        "zip opbeans-android-app.zip opbeans-android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk opbeans-android/app/build/outputs/apk/debug/app-debug.apk")
 
 
 def none_or_str(value):
