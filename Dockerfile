@@ -21,6 +21,7 @@ WORKDIR /
 
 RUN apt update
 RUN yes | apt install python3-pip
+RUN yes | apt install zip
 
 COPY requirements.txt ./
 
