@@ -26,8 +26,7 @@ def run_command(command, from_dir=os.getcwd()):
 def fetch_repos():
     log("Fetching repos")
     run_build_command("git clone https://github.com/elastic/opbeans-android.git")
-    run_build_command(
-        "git clone https://github.com/elastic/apm-agent-android.git")
+    run_build_command("git clone https://github.com/elastic/apm-agent-android.git")
 
 
 def build_agent():
