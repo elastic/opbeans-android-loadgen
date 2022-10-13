@@ -6,7 +6,7 @@ from jproperties import Properties
 
 
 def log(message, *args):
-    print("[LOAD_GENERATOR] - " + message.format(*args))
+    run_command("echo [APP_BUILDER] = " + message.format(*args))
 
 
 def run_command(command, from_dir=os.getcwd()):
