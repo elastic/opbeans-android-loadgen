@@ -64,7 +64,7 @@ def build_binaries(args):
 
     run_command(command, "./opbeans-android")
     run_command(
-        "zip opbeans-android-app.zip ./opbeans-android/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk ./opbeans-android/build/outputs/apk/debug/app-debug.apk")
+        "zip opbeans-android-app.zip opbeans-android/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk opbeans-android/build/outputs/apk/debug/app-debug.apk")
 
 
 def none_or_str(value):
