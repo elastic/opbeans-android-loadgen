@@ -2,10 +2,10 @@ FROM androidsdk/android-31
 
 ARG github_username
 ARG github_password
-ARG exporter_auth_token=None
-ARG opbeans_auth_token=None
-ARG exporter_endpoint=http://10.0.2.2:8200
+ARG exporter_endpoint=https://c7af8dcb537d47d29c34e0d5233df782.apm.us-west2.gcp.elastic-cloud.com:443
+ARG exporter_auth_token=MJkZnP1f7iMVSaTJIg
 ARG opbeans_endpoint=http://10.0.2.2:3000
+ARG opbeans_auth_token=None
 ENV EXPORTER_AUTH_TOKEN=${exporter_auth_token}
 ENV EXPORTER_ENDPOINT=${exporter_endpoint}
 ENV OPBEANS_AUTH_TOKEN=${opbeans_auth_token}
