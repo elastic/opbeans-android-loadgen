@@ -20,6 +20,12 @@ def run_command(command, from_dir=os.getcwd()):
         raise subprocess.CalledProcessError(p.returncode, p.args)
 
 
+def fetch_repos():
+    log("Fetching repos")
+    run_command("git clone https://${GITHUB_USERNAME}:${GITHUB_PASSWORD}@github.com/elastic/opbeans-android.git")
+    run_command("git clone https://${GITHUB_USERNAME}:${GITHUB_PASSWORD}@github.com/elastic/apm-agent-android.git")
+
+
 def build_agent():
     log("Building APM Agent")
     run_command("./gradlew publishToMavenLocal", "./apm-agent-android")
@@ -95,6 +101,7 @@ def clean_up():
 
 def main():
     args = parse_arguments()
+    fetch_repos()
     build_agent()
     set_opbeans_agent_version(get_agent_version())
     build_binaries(args)
