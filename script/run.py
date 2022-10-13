@@ -75,6 +75,7 @@ def parse_arguments():
                         default=None)
     return parser.parse_args()
 
+
 def clean_up():
     log("Cleaning up")
     run_command("rm -rf opbeans-android")
