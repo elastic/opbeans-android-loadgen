@@ -101,12 +101,14 @@ def clean_up():
 
 def main():
     args = parse_arguments()
-    fetch_repos()
-    build_agent()
-    set_opbeans_agent_version(get_agent_version())
-    build_binaries(args)
-    upload_binaries()
-    clean_up()
+    try:
+        fetch_repos()
+        build_agent()
+        set_opbeans_agent_version(get_agent_version())
+        build_binaries(args)
+        upload_binaries()
+    finally:
+        clean_up()
 
 
 if __name__ == "__main__":
