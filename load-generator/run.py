@@ -1,0 +1,71 @@
+import json
+import os
+import subprocess
+
+
+def run_command(command, from_dir=os.getcwd()):
+    log("Running command: {}", command)
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, cwd=from_dir, universal_newlines=True, shell=True)
+    output, error = process.communicate()
+    if error:
+        raise error
+
+    return output
+
+
+def run_build_command(command, from_build_dir=''):
+    return run_command(command, "./build" + from_build_dir)
+
+
+def log(message, *args):
+    print("[LOAD_GENERATOR] - " + message.format(*args))
+
+
+def get_latest_app_id():
+    result = run_command(
+        "curl -u $SAUCE_USERNAME:$SAUCE_ACCESS_KEY --location \\"
+        "--request GET 'https://api.us-west-1.saucelabs.com/v1/storage/files?name=opbeans-android-app.zip&per_page=1' | json_pp")
+
+    data = json.loads(result)
+    items = data['items']
+    latest = items[0]
+    return latest['id']
+
+
+def download_app(app_id):
+    log("Dowloading app with id: {}", app_id)
+    run_build_command(
+        "curl -u $SAUCE_USERNAME:$SAUCE_ACCESS_KEY --location \\"
+        "--request GET 'https://api.us-west-1.saucelabs.com/v1/storage/download/{}' \\"
+        "--output app.zip".format(app_id))
+
+    run_build_command("unzip app.zip")
+
+
+def create_build_dir():
+    run_command("mkdir build")
+
+
+def clean_up():
+    log("Cleaning up")
+    run_command("rm -rf build")
+
+
+def run_espresso():
+    log("Running espresso tests")
+    response = run_command("saucectl run")
+    log(response)
+
+
+def main():
+    app_id = get_latest_app_id()
+    try:
+        create_build_dir()
+        download_app(app_id)
+        run_espresso()
+    finally:
+        clean_up()
+
+
+if __name__ == "__main__":
+    main()

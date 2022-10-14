@@ -1,0 +1,14 @@
+apiVersion: v1alpha
+kind: espresso
+sauce:
+  region: us-west-1
+  concurrency: 1
+espresso:
+  app: ./build/app.apk
+  testApp: ./build/testApp.apk
+suites:
+  - name: "Opbeans on Android Emulator"
+    emulators:
+      - name: "Android GoogleAPI Emulator"
+        platformVersions:
+          - "12.0"
