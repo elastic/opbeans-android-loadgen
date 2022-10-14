@@ -11,4 +11,4 @@ This repo contains 2 scripts:
   endpoint provided on `app-uploader` in one of its Dockerfile `ARG`s.
 
 Both scripts have their own Dockerfile to set the env up before running them, make sure to checkout their `ARG`s in
-order to make sure you're passing them all before building the images.
+order to make sure you're passing them all when building the images.
