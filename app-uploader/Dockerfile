@@ -12,6 +12,7 @@ ENV OPBEANS_AUTH_TOKEN=${opbeans_auth_token}
 ENV OPBEANS_ENDPOINT=${opbeans_endpoint}
 ENV SAUCE_USERNAME=${sauce_username}
 ENV SAUCE_ACCESS_KEY=${sauce_access_key}
+ENV GOOGLE_APPLICATION_CREDENTIALS=/script/assets/opbeans-android-key.json
 
 WORKDIR /
 
@@ -24,5 +25,6 @@ COPY requirements.txt ./
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY ./run.py ./
+COPY ./opbeans-android-key.json $GOOGLE_APPLICATION_CREDENTIALS
 
 CMD python3 -m run --exporter-endpoint ${EXPORTER_ENDPOINT} --exporter-auth-token ${EXPORTER_AUTH_TOKEN} --opbeans-endpoint ${OPBEANS_ENDPOINT} --opbeans-auth-token ${OPBEANS_AUTH_TOKEN}
