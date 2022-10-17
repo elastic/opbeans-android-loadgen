@@ -89,12 +89,17 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def upload_binaries():
+def upload_binaries_to_saucelabs():
     log("Uploading Android binaries")
     run_build_command("curl -u ${SAUCE_USERNAME}:${SAUCE_ACCESS_KEY} --location \\"
                       "--request POST https://api.us-west-1.saucelabs.com/v1/storage/upload \\"
                       "--form payload=@\"./opbeans-android-app.zip\" \\"
                       "--form 'name=\"opbeans-android-app.zip\"'")
+
+
+def upload_app_to_firebase():
+    log("Uploading to Firebase")
+    run_build_command("./gradlew appDistributionUploadDebug", "/opbeans-android")
 
 
 def clean_up():
@@ -115,7 +120,8 @@ def main():
         build_agent()
         set_opbeans_agent_version(get_agent_version())
         build_binaries(args)
-        upload_binaries()
+        upload_binaries_to_saucelabs()
+        upload_app_to_firebase()
     finally:
         clean_up()
 
