@@ -67,8 +67,8 @@ def build_binaries(args):
 
     run_build_command(command, "/opbeans-android")
     run_build_command(
-        "mv opbeans-android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk ./testApp.apk")
-    run_build_command("mv opbeans-android/app/build/outputs/apk/debug/app-debug.apk ./app.apk")
+        "cp opbeans-android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk ./testApp.apk")
+    run_build_command("cp opbeans-android/app/build/outputs/apk/debug/app-debug.apk ./app.apk")
     run_build_command("zip -j opbeans-android-app.zip testApp.apk app.apk")
 
 
