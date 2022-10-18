@@ -13,6 +13,17 @@ def run_command(command, from_dir=os.getcwd()):
     return output
 
 
+def run_command_stdout(command, from_dir=os.getcwd()):
+    print("Running command: {}".format(command))
+    with subprocess.Popen(command, stdout=subprocess.PIPE, cwd=from_dir, bufsize=1,
+                          universal_newlines=True, shell=True) as p:
+        for line in p.stdout:
+            print(line, end='')
+
+    if p.returncode != 0:
+        raise subprocess.CalledProcessError(p.returncode, p.args)
+
+
 def run_build_command(command, from_build_dir=''):
     return run_command(command, "./build" + from_build_dir)
 
@@ -53,8 +64,7 @@ def clean_up():
 
 def run_espresso():
     log("Running espresso tests")
-    response = run_command("saucectl run")
-    log(response)
+    run_command_stdout("saucectl run")
 
 
 def main():
