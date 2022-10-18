@@ -57,8 +57,12 @@ def set_opbeans_agent_version(agent_version):
 
 def build_binaries(args):
     log("Building APKs")
+    endpoint = args.opbeansEndpoint
+    if not endpoint.startswith('http'):
+        endpoint = "https://" + endpoint
+    log("Using opbeans endpoint: {}", endpoint)
     command = "./gradlew :app:packageDebugAndroidTest :app:assembleDebug -Pexporter_endpoint={} -Popbeans_endpoint={}".format(
-        args.exporterEndpoint, args.opbeansEndpoint)
+        args.exporterEndpoint, endpoint)
 
     if args.exporterAuthToken is not None:
         command = command + " -Pexporter_auth_token={}".format(args.exporterAuthToken)
