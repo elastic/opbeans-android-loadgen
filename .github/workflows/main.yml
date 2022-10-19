@@ -1,0 +1,13 @@
+jobs:
+  opbeans_load_generator:
+    runs-on: ubuntu-latest
+    name: A job to generate Opbeans Android data
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Execute load generator
+        uses: ./
+        with:
+          build-args: |
+            sauce_username=${{secrets.SAUCE_USERNAME}}
+            sauce_access_key=${{secrets.SAUCE_ACCESS_KEY}}
