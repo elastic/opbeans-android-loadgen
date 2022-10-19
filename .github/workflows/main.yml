@@ -1,3 +1,6 @@
+on:
+  workflow_dispatch:
+
 jobs:
   opbeans_load_generator:
     runs-on: ubuntu-latest
