@@ -1,7 +1,8 @@
 name: Opbeans Android Load Generator
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '*/10 * * * *'
 
 jobs:
   opbeans_load_generator:
