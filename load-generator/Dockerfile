@@ -13,4 +13,4 @@ RUN saucectl configure --username $sauce_username --accessKey $sauce_access_key
 
 COPY . .
 
-ENTRYPOINT python -m run
+ENTRYPOINT ["python", "-m", "run"]
