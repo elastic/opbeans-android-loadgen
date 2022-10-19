@@ -1,5 +1,0 @@
-name: 'Opbeans Android Load Generator'
-description: 'Runs SauceLabs tests for Opbeans Android to generate data for Kibana'
-runs:
-  using: 'docker'
-  image: 'load-generator/Dockerfile'

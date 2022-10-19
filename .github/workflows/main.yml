@@ -11,8 +11,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Execute load generator
-        uses: ./
-        with:
-          build-args: |
-            sauce_username=${{secrets.SAUCE_USERNAME}}
-            sauce_access_key=${{secrets.SAUCE_ACCESS_KEY}}
+        env:
+          SAUCE_USERNAME: ${{secrets.SAUCE_USERNAME}}
+          SAUCE_ACCESS_KEY: ${{secrets.SAUCE_ACCESS_KEY}}
+        run: |
+          docker build --build-arg sauce_username=$SAUCE_USERNAME --build-arg sauce_access_key=$SAUCE_ACCESS_KEY -t load-generator ./load-generator
+          docker run load-generator
