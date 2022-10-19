@@ -1,3 +1,5 @@
+name: Opbeans Android Load Generator
+
 on:
   workflow_dispatch:
 
