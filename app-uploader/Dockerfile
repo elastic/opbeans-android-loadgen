@@ -4,9 +4,9 @@ ARG sauce_username
 ARG sauce_access_key
 ARG opbeans_endpoint
 ARG firebase_app_id
+ARG exporter_endpoint
+ARG exporter_auth_token
 ARG opbeans_auth_token=None
-ARG exporter_endpoint=https://c7af8dcb537d47d29c34e0d5233df782.apm.us-west2.gcp.elastic-cloud.com:443
-ARG exporter_auth_token=MJkZnP1f7iMVSaTJIg
 ENV EXPORTER_AUTH_TOKEN=${exporter_auth_token}
 ENV EXPORTER_ENDPOINT=${exporter_endpoint}
 ENV OPBEANS_AUTH_TOKEN=${opbeans_auth_token}
