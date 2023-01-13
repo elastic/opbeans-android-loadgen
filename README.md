@@ -14,3 +14,6 @@ Both scripts have their own Dockerfile to set the env up before running them, ma
 order to make sure you're passing them all when building the images.
 
 There's a GitHub action in place that runs the `load-generator` every 10 minutes.
+
+IMPORTANT:
+Run `update_common.sh` every time something changes within the common folder.
