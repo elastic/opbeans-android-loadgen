@@ -19,6 +19,7 @@ COPY requirements.txt ./
 
 RUN pip install --no-cache-dir -r requirements.txt
 
+COPY ./.sauce ./
 COPY ./run.py ./
 COPY ./app_file_names.properties ./
 
