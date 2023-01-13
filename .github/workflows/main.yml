@@ -2,7 +2,7 @@ name: Opbeans Android Load Generator
 
 on:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '*/7 * * * *'
 
 jobs:
   opbeans_load_generator:
