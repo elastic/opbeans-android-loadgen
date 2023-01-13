@@ -1,6 +1,7 @@
 import json
 import os
 import subprocess
+from jproperties import Properties
 
 
 def run_command(command, from_dir=os.getcwd()):
@@ -32,10 +33,11 @@ def log(message, *args):
     print("[LOAD_GENERATOR] - " + message.format(*args))
 
 
-def get_latest_app_id():
+def get_latest_app_id(app_file_name):
     result = run_command(
         "curl -u $SAUCE_USERNAME:$SAUCE_ACCESS_KEY --location \\"
-        "--request GET 'https://api.us-west-1.saucelabs.com/v1/storage/files?name=opbeans-android-app.zip&per_page=1' | json_pp")
+        "--request GET 'https://api.us-west-1.saucelabs.com/v1/storage/files?name={}&per_page=1' | json_pp".format(
+            app_file_name))
 
     data = json.loads(result)
     items = data['items']
@@ -62,13 +64,21 @@ def clean_up():
     run_command("rm -rf build")
 
 
+def get_app_file_name():
+    configs = Properties()
+    with open('app_file_names.properties', 'rb') as properties:
+        configs.load(properties)
+
+    return configs.get(os.environ['CLUSTER_NAME']).data
+
+
 def run_espresso():
     log("Running espresso tests")
     run_command_stdout("saucectl run")
 
 
 def main():
-    app_id = get_latest_app_id()
+    app_id = get_latest_app_id(get_app_file_name())
     try:
         create_build_dir()
         download_app(app_id)
