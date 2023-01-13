@@ -20,6 +20,6 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY ./run.py ./
-COPY ./../common/app_file_names.properties ./
+COPY ./app_file_names.properties ./
 
 ENTRYPOINT ["python", "-m", "run"]

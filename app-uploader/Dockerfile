@@ -30,6 +30,6 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY ./run.py ./
 COPY ./opbeans-android-key.json $GOOGLE_APPLICATION_CREDENTIALS
-COPY ./../common/app_file_names.properties ./
+COPY ./app_file_names.properties ./
 
 CMD python3 -m run --exporter-endpoint ${EXPORTER_ENDPOINT} --exporter-auth-token ${EXPORTER_AUTH_TOKEN} --opbeans-endpoint ${OPBEANS_ENDPOINT} --opbeans-auth-token ${OPBEANS_AUTH_TOKEN}
