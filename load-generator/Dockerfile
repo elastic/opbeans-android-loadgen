@@ -14,5 +14,6 @@ RUN sh -c 'curl -L https://saucelabs.github.io/saucectl/install | bash -s -- -b 
 RUN saucectl configure --username $sauce_username --accessKey $sauce_access_key
 
 COPY . .
+COPY ./../common/app_file_names.properties ./
 
 ENTRYPOINT ["python", "-m", "run"]
