@@ -6,6 +6,7 @@ ARG opbeans_endpoint
 ARG firebase_app_id
 ARG exporter_endpoint
 ARG exporter_auth_token
+ARG cluster_name
 ARG opbeans_auth_token=None
 ENV EXPORTER_AUTH_TOKEN=${exporter_auth_token}
 ENV EXPORTER_ENDPOINT=${exporter_endpoint}
@@ -15,6 +16,7 @@ ENV SAUCE_USERNAME=${sauce_username}
 ENV SAUCE_ACCESS_KEY=${sauce_access_key}
 ENV OPBEANS_APP_ID=${firebase_app_id}
 ENV GOOGLE_APPLICATION_CREDENTIALS=/script/assets/opbeans-android-key.json
+ENV CLUSTER_NAME=${cluster_name}
 
 WORKDIR /
 
