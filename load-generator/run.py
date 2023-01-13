@@ -69,7 +69,9 @@ def get_app_file_name():
     with open('app_file_names.properties', 'rb') as properties:
         configs.load(properties)
 
-    return configs.get(os.environ['CLUSTER_NAME']).data
+    data = configs.get(os.environ['CLUSTER_NAME']).data
+    log("Using app name: '{}'", data)
+    return data
 
 
 def run_espresso():
