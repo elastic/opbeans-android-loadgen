@@ -34,6 +34,16 @@ def build_agent():
     run_build_command("./gradlew publishToMavenLocal", "/apm-agent-android")
 
 
+def get_app_file_name():
+    configs = Properties()
+    with open('app_file_names.properties', 'rb') as properties:
+        configs.load(properties)
+
+    data = configs.get(os.environ['CLUSTER_NAME']).data
+    log("Using app name: '{}'", data)
+    return data
+
+
 def get_agent_version():
     configs = Properties()
     with open('build/apm-agent-android/gradle.properties', 'rb') as properties:
@@ -55,7 +65,7 @@ def set_opbeans_agent_version(agent_version):
         opbeans_prop.store(properties)
 
 
-def build_binaries(args):
+def build_binaries(app_file_name, args):
     log("Building APKs")
     endpoint = args.opbeansEndpoint
     if not endpoint.startswith('http'):
@@ -73,7 +83,7 @@ def build_binaries(args):
     run_build_command(
         "cp opbeans-android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk ./testApp.apk")
     run_build_command("cp opbeans-android/app/build/outputs/apk/debug/app-debug.apk ./app.apk")
-    run_build_command("zip -j opbeans-android-app.zip testApp.apk app.apk")
+    run_build_command("zip -j {} testApp.apk app.apk".format(app_file_name))
 
 
 def none_or_str(value):
@@ -93,12 +103,12 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def upload_binaries_to_saucelabs():
+def upload_binaries_to_saucelabs(app_file_name):
     log("Uploading Android binaries")
-    run_build_command("curl -u ${SAUCE_USERNAME}:${SAUCE_ACCESS_KEY} --location \\"
+    run_build_command("curl -u $SAUCE_USERNAME:$SAUCE_ACCESS_KEY --location \\"
                       "--request POST https://api.us-west-1.saucelabs.com/v1/storage/upload \\"
-                      "--form payload=@\"./opbeans-android-app.zip\" \\"
-                      "--form 'name=\"opbeans-android-app.zip\"'")
+                      "--form payload=@\"./{}\" \\"
+                      "--form 'name=\"{}\"'".format(app_file_name, app_file_name))
 
 
 def upload_app_to_firebase():
@@ -123,8 +133,9 @@ def main():
         fetch_repos()
         build_agent()
         set_opbeans_agent_version(get_agent_version())
-        build_binaries(args)
-        upload_binaries_to_saucelabs()
+        app_file_name = get_app_file_name()
+        build_binaries(app_file_name, args)
+        upload_binaries_to_saucelabs(app_file_name)
         upload_app_to_firebase()
     finally:
         clean_up()
