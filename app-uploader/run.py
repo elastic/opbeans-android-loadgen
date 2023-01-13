@@ -113,7 +113,7 @@ def upload_binaries_to_saucelabs(app_file_name):
 
 def upload_app_to_firebase():
     log("Uploading to Firebase")
-    run_build_command("./gradlew appDistributionUploadDebug", "/opbeans-android")
+    run_build_command("./gradlew appDistributionUploadDebug -Pfirebase_release_notes=$CLUSTER_NAME", "/opbeans-android")
 
 
 def clean_up():
