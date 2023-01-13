@@ -7,6 +7,12 @@ on:
 jobs:
   opbeans_load_generator:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cluster_name:
+          - edge
+          - edge-lite
     name: A job to generate Opbeans Android data
     steps:
       - name: Checkout
@@ -15,6 +21,7 @@ jobs:
         env:
           SAUCE_USERNAME: ${{secrets.SAUCE_USERNAME}}
           SAUCE_ACCESS_KEY: ${{secrets.SAUCE_ACCESS_KEY}}
+          CLUSTER_NAME: ${{ matrix.cluster_name }}
         run: |
-          docker build --build-arg sauce_username=$SAUCE_USERNAME --build-arg sauce_access_key=$SAUCE_ACCESS_KEY -t load-generator ./load-generator
+          docker build --build-arg cluster_name=$CLUSTER_NAME --build-arg sauce_username=$SAUCE_USERNAME --build-arg sauce_access_key=$SAUCE_ACCESS_KEY -t load-generator ./load-generator
           docker run load-generator
