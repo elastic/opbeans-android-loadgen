@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         cluster_name:
-          - edge-lite
+          - edge-lite-oblt
     name: A job to generate Opbeans Android data
     steps:
       - name: Checkout
