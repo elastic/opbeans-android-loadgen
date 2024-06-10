@@ -1,4 +1,4 @@
-FROM androidsdk/android-31
+FROM runmymind/docker-android-sdk:ubuntu-standalone-sha-eaf5982
 
 ARG sauce_username
 ARG sauce_access_key
