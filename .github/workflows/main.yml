@@ -15,7 +15,7 @@ jobs:
     name: A job to generate Opbeans Android data
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Execute load generator
         env:
           SAUCE_USERNAME: ${{secrets.SAUCE_USERNAME}}
