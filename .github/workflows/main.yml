@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: '*/7 * * * *'
 
+permissions:
+  contents: read
+
 jobs:
   opbeans_load_generator:
     runs-on: ubuntu-latest
